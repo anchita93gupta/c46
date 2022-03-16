@@ -1,4 +1,5 @@
 
+
 function preload(){
   bgImage = loadImage("./images/bg.png");
   earthImage = loadImage ("./images/earth.png");
@@ -31,15 +32,28 @@ function setup()
   moon.addImage("moonImg", moonImage);
   moon.scale = 0.4;
 
-  bullet = createSprite ( spaceCraft.x+10,spaceCraft.y,0.1,0.1);
+  bullet = createSprite ( spaceCraft.x+10,spaceCraft.y,5,5);
   bullet.addImage("bulletImg",bulletImage);
+  bullet.y = spaceCraft.y;
+  bullet.x = spaceCraft.x+10;
+ 
+  enemy = createSprite(200,200,30,40)
+  enemy.velocityX = -9;
+  enemy.velocityY = -3;
+  enemy.y = Math.round(random(10,200))
   
 }
 
 function draw() {
 
-edges=createEdgeSprites();
 
+edges = createEdgeSprites();
+  
+enemy.bounceOff(edges[0]);
+enemy.bounceOff(edges[2]);
+enemy.bounceOff(edges[3]);
+enemy.bounceOff(edges[1]);
+  
 //making the background infinite
 backg.velocityX = -1;
 
@@ -56,19 +70,20 @@ spaceCraft.y = World.mouseY;
 spaceCraft.setCollider("circle", 0,0,40);
 spaceCraft.debug = true;
 
-spawnEnemies();
+//spawnEnemies();
 
-  bullet.x = spaceCraft.x;
-  bullet.y = spaceCraft.y;
-  
+  //bullet.x = spaceCraft.x;
+  //bullet.y = spaceCraft.y;
+  if(keyDown("space")){
+    bullet.velocityX = random(20,40);
+      bullet.velocityY = random(10,20); 
+    }
   bullet.depth = spaceCraft.depth;
   spaceCraft.depth = spaceCraft.depth+1;
-  bullet.y = spaceCraft.y;
-  bullet.x = spaceCraft.x+10;
+  
   
     //vel_bullet();
-    bullet.velocityX = random(20,40);
-    bullet.velocityY = random(10,20); 
+    
   bullet.bounceOff(edges);
   //bullet.bounceOff(leftEdge);
   //bullet.bounceOff(rightEdge);
@@ -116,7 +131,7 @@ function vel_bullet()
   
   }
 
-function spawnEnemies(){
+/*function spawnEnemies(){
 if (frameCount % 80=== 0){
   enemy = createSprite(1750,80,20,20);
   enemy.velocityX = random(-1,-3);
@@ -127,5 +142,5 @@ if (frameCount % 80=== 0){
   enemy.bounceOff(edges[2]);
   enemy.bounceOff(edges[3]);
 }
-}
+}*/
   
